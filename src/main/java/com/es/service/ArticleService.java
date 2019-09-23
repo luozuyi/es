@@ -51,5 +51,10 @@ public interface ArticleService {
      */
     Result bool(String title, Integer userId, Integer weight);
 
-
+    /**
+     * 获取分词结果
+     * @param searchContent 字符串
+     * @return
+     */
+    Result getIkAnalyzeSearchTerms(String searchContent);
 }

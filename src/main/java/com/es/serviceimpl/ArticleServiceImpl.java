@@ -5,6 +5,9 @@ import com.es.service.ArticleService;
 import com.es.utils.Constants;
 import com.es.utils.Result;
 import org.apache.commons.lang.StringUtils;
+import org.elasticsearch.action.admin.indices.analyze.AnalyzeAction;
+import org.elasticsearch.action.admin.indices.analyze.AnalyzeRequestBuilder;
+import org.elasticsearch.action.admin.indices.analyze.AnalyzeResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
@@ -12,6 +15,7 @@ import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilde
 import org.springframework.data.elasticsearch.core.query.SearchQuery;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
@@ -161,6 +165,36 @@ public class ArticleServiceImpl implements ArticleService{
                 result.setData(articles);
                 code = Constants.SUCCESS;
                 msg = "查询成功";
+            }
+        }catch (Exception e){
+            code = Constants.ERROR;
+            msg = "后台出错";
+            e.printStackTrace();
+        }
+        result.setCode(code);
+        result.setMsg(msg);
+        return result;
+    }
+
+    @Override
+    public Result getIkAnalyzeSearchTerms(String searchContent) {
+        Result result = new Result();
+        String code = Constants.FAIL;
+        String msg = "初始化";
+        try {
+            if(StringUtils.isBlank(searchContent)){
+                code = "1";
+                msg = "searchContent为空";
+            }else{
+                AnalyzeRequestBuilder analyzeRequestBuilder = new AnalyzeRequestBuilder(elasticsearchTemplate.getClient(),
+                        AnalyzeAction.INSTANCE,"article",searchContent);
+                //analyzeRequestBuilder.setTokenizer("ik_smart");
+                analyzeRequestBuilder.setTokenizer("ik_max_word");
+                List<AnalyzeResponse.AnalyzeToken> ikTokenList = analyzeRequestBuilder.execute().actionGet().getTokens();
+                result.setData(ikTokenList);
+                code = Constants.SUCCESS;
+                msg = "查询成功";
+
             }
         }catch (Exception e){
             code = Constants.ERROR;

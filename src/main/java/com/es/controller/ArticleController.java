@@ -83,4 +83,14 @@ public class ArticleController {
     public Result bool(String title, Integer userId, Integer weight) {
         return articleService.bool(title,userId,weight);
     }
+
+    /**
+     * 获取分词结果集
+     * @param searchContent 字符串
+     * @return
+     */
+    @GetMapping(value = "articles/ik-analyze")
+    public Result getIkAnalyzeSearchTerms(String searchContent) {
+        return articleService.getIkAnalyzeSearchTerms(searchContent);
+    }
 }
