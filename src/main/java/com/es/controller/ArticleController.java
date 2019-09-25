@@ -20,7 +20,7 @@ public class ArticleController {
      * @param pageable 分页对象
      * @return
      */
-    @GetMapping(value = "articles/ingle-word")
+    @GetMapping(value = "articles/single-word")
     Result singleTitle(String word, @PageableDefault Pageable pageable){
         return articleService.singleTitle(word,pageable);
     }
