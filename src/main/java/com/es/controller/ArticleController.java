@@ -21,7 +21,7 @@ public class ArticleController {
      * @return
      */
     @GetMapping(value = "articles/single-word")
-    Result singleTitle(String word, @PageableDefault Pageable pageable){
+    public Result singleTitle(String word, @PageableDefault Pageable pageable){
         return articleService.singleTitle(word,pageable);
     }
 
@@ -32,7 +32,7 @@ public class ArticleController {
      * @return
      */
     @GetMapping(value = "articles/single-word/sorting")
-    Result singleTitleSorting(String word, @PageableDefault(sort = "weight", direction = Sort.Direction.DESC) Pageable pageable){
+    public Result singleTitleSorting(String word, @PageableDefault(sort = "weight", direction = Sort.Direction.DESC) Pageable pageable){
         return articleService.singleTitle(word,pageable);
     }
 
@@ -44,7 +44,7 @@ public class ArticleController {
      * @return
      */
     @GetMapping(value = "articles/single-match")
-    Result singleMatch(String content, @PageableDefault Pageable pageable){
+    public Result singleMatch(String content, @PageableDefault Pageable pageable){
         return articleService.singleMatch(content,pageable);
     }
 
